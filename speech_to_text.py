@@ -10,7 +10,7 @@ Prerequisites:
    - Download the JSON key file
    - Set environment variable: export GOOGLE_APPLICATION_CREDENTIALS="/path/to/key.json"
 
-3. Optional: Install ffmpeg for M4A/AAC audio conversion:
+3. Required: Install ffmpeg for audio format conversion (all non-WAV formats):
    brew install ffmpeg  (on macOS)
    OR apt-get install ffmpeg  (on Linux)
 """
@@ -137,9 +137,9 @@ def transcribe_audio(audio_file_path):
     _, ext = os.path.splitext(audio_file_path)
     ext = ext.lower()
     
-    # Convert M4A to WAV if necessary
+    # Convert any non-WAV format to WAV using ffmpeg
     audio_to_process = audio_file_path
-    if ext in ['.m4a', '.aac', '.mp4', '.caf']:
+    if ext != '.wav':
         try:
             # Use ffmpeg to convert to WAV (LINEAR16)
             print(f"  Converting {ext} to WAV format...")
